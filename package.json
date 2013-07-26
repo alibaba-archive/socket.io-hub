@@ -1,0 +1,16 @@
+{
+  "name": "socket.io-hub",
+  "description": "a cluster wrapper for socket.io",
+  "main": "lib/socket.io-hub.js",
+  "version": "0.0.1",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:teambition/socket.io-hub.git"
+  },
+  "dependencies": {
+    "socket.io": "*",
+    "redis": "0.x"
+  },
+  "license": "MIT"
+}
