@@ -1,10 +1,21 @@
 {
   "name": "socket.io-hub",
-  "version": "0.0.1",
   "description": "Scalable Socket.IO",
+  "main": "lib/socket.io-hub.js",
+  "version": "0.0.1",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:teambition/socket.io-hub.git"
+  },
+  "dependencies": {
+    "socket.io": "*",
+    "redis": "0.x"
+  },
   "keywords": [
     "scalable",
     "socket.io",
     "cluster"
   ]
+  "license": "MIT"
 }
