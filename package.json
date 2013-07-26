@@ -16,6 +16,6 @@
     "scalable",
     "socket.io",
     "cluster"
-  ]
+  ],
   "license": "MIT"
 }
