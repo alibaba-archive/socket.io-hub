@@ -1,0 +1,10 @@
+{
+  "name": "socket.io-hub",
+  "version": "0.0.1",
+  "description": "Scalable Socket.IO",
+  "keywords": [
+    "scalable",
+    "socket.io",
+    "cluster"
+  ]
+}
