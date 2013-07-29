@@ -1,0 +1,16 @@
+313 error Error: read ETIMEDOUT
+313 error     at errnoException (net.js:878:11)
+313 error     at TCP.onread (net.js:539:19)
+314 error If you need help, you may report this log at:
+314 error     <http://github.com/isaacs/npm/issues>
+314 error or email it to:
+314 error     <npm-@googlegroups.com>
+315 error System Darwin 12.4.0
+316 error command "/usr/local/node/bin/node" "/usr/local/bin/npm" "i"
+317 error cwd /Users/tristan/coding/socket.io-hub
+318 error node -v v0.10.1
+319 error npm -v 1.2.15
+320 error syscall read
+321 error code ETIMEDOUT
+322 error errno ETIMEDOUT
+323 verbose exit [ 1, true ]

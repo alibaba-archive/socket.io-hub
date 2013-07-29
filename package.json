@@ -9,8 +9,11 @@
     "url": "git@github.com:teambition/socket.io-hub.git"
   },
   "dependencies": {
-    "socket.io": "*",
-    "redis": "0.x"
+    "socket.io": "0.9.x",
+    "redis": "0.8.x",
+    "hiredis": "0.1.x",
+    "underscore": "1.5.x",
+    "redis-emitter": "*"
   },
   "keywords": [
     "scalable",
