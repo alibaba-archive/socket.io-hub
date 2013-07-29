@@ -12,8 +12,7 @@
     "socket.io": "0.9.x",
     "redis": "0.8.x",
     "hiredis": "0.1.x",
-    "underscore": "1.5.x",
-    "redis-emitter": "*"
+    "underscore": "1.5.x"
   },
   "keywords": [
     "scalable",
