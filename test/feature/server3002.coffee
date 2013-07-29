@@ -17,6 +17,7 @@ io = socketIo.hub({
 
 io.sockets.on 'connection', (socket) ->
   socket.subscribe()
+  socket.broadcast.emit('news', 'I am coming')
   socket.on 'chat', (data) ->
     socket.emit('news', data)
 
