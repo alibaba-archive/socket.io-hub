@@ -30,8 +30,10 @@ io.sockets.on 'connection', (socket) ->
   setInterval (->
     io.sockets.in(room).emit('news', "room notice from room #{room} of #{port}")
     ), 5000
-
-
+  setTimeout (->
+    socket.broadcast.emit('news', "hub closed of #{port}")
+    socketIo.nohub()
+    ), 15000
 
 server.listen(port)
 console.log "server listen on #{port}"
