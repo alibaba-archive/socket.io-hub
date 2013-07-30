@@ -1,4 +1,5 @@
-nohub = ->
-  return this
+Hub = require('./hub')
 
-module.exports = nohub
+Nohub = ->
+  return this until Hub.adapterActive
+  return this

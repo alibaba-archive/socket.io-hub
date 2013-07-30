@@ -1,6 +1,7 @@
-socketIo = require('../../lib/socket.io-hub')
+socketIo = require('../../src/socket.io-hub')
 http = require('http')
 port = process.argv[2] || 3000
+rooms = ['a', 'b']
 
 server = http.createServer (req, res) ->
   res.end('<script src="/socket.io/socket.io.js"></script>
@@ -21,9 +22,16 @@ io = socketIo.hub({
 
 io.sockets.on 'connection', (socket) ->
   socket.subscribe()
-  socket.broadcast.emit('news', 'I am coming')
+  room = rooms[Math.floor(Math.random()*2)]
+  socket.join(room)
+  socket.emit('news', "join room #{room}")
   socket.on 'chat', (data) ->
     socket.emit('news', data)
+  setInterval (->
+    io.sockets.in(room).emit('news', "room notice from room #{room} of #{port}")
+    ), 5000
+
+
 
 server.listen(port)
 console.log "server listen on #{port}"

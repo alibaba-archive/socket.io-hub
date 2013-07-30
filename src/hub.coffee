@@ -1,9 +1,23 @@
 _ = require('underscore')
 
-hub = (options) ->
-  socketIo = _.clone(this)
+Hub = (options) ->
   this.socket = require('./socket')
-  this.socket.hub(options)
+  this.namespace = require('./namespace')
+  adapterName = options.adapter or 'redis'
+  if adapterName not in Hub.adapters
+    throw "adapter #{adapterName} is not exist!"
+  Adapter = require("./#{adapterName}-adapter")
+  Hub.adapter = new Adapter(options)
+  Hub.adapter.sub(Hub.channel)
+  Hub.adapterActive = true
   return this
 
-module.exports = hub
+Hub.channel = 'socket.io.hub'
+
+Hub.adapter = null
+
+Hub.adapterActive = false
+
+Hub.adapters = ['redis']
+
+module.exports = Hub
