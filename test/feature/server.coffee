@@ -1,27 +1,29 @@
 socketIo = require('../../src/socket.io-hub')
 http = require('http')
+port = process.argv[2] || 3000
 
 server = http.createServer (req, res) ->
   res.end('<script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script>
-      var socket = io.connect("http://localhost:3000");
-      socket.on("news", function (data) {
-        console.log(data);
-        socket.emit("chat", { my: "data" });
-      });
+      var socket = io.connect("http://localhost:' + port + '");
+      $(document).ready(function() {
+        $("body").append("' + process.pid + '<hr/>");
+          socket.on("news", function (data) {
+            $("body").append("<li>" + data + "</li>");
+          });
+        });
     </script>')
 
 io = socketIo.hub({
   adapter: 'redis'
   }).listen(server)
 
-# console.log io
-# process.exit()
-
 io.sockets.on 'connection', (socket) ->
-  socket.emit('news', {hello: 'world'})
+  socket.subscribe()
+  socket.broadcast.emit('news', 'I am coming')
   socket.on 'chat', (data) ->
     console.log data
 
-server.listen(3000)
-console.log "server listen on 3000"
+server.listen(port)
+console.log "server listen on #{port}"

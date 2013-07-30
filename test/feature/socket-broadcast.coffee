@@ -1,14 +1,18 @@
-socketIo = require('../../src/socket.io-hub')
+socketIo = require('../../lib/socket.io-hub')
 http = require('http')
-port = 3002
+port = process.argv[2]
 
 server = http.createServer (req, res) ->
   res.end('<script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script>
       var socket = io.connect("http://localhost:' + port + '");
-      socket.on("news", function (data) {
-        console.log(data);
-      });
+      $(document).ready(function() {
+        $("body").append("' + process.pid + '<hr/>");
+          socket.on("news", function (data) {
+            $("body").append("<li>" + data + "</li>");
+          });
+        });
     </script>')
 
 io = socketIo.hub({
