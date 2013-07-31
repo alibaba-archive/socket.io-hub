@@ -17,6 +17,7 @@ server = http.createServer (req, res) ->
 
 io = socketIo.hub({
   adapter: 'redis'
+  salt: 'teambition'
   }).listen(server)
 
 io.sockets.on 'connection', (socket) ->

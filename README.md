@@ -20,6 +20,14 @@ When socket.io emit an event, we publish data of this event to redis and other p
 * in(room).emit
 * of(/namespace).emit
 
+## options
+
+Options are used for `hub` function, they are all optional, so feel free to try them:
+
+* adapter: redis  # hub adapter, for this moment it only supports redis, and it is the prefered one
+* config: {host: '127.0.0.1', port: '6379'}  # redis configurations
+* salt: 'some string'  # when use salt, socket.io-hub will add _sign in published messages.
+
 ## Usage
 
 Usually we create a simple http server and add socket.io support:
