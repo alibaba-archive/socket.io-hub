@@ -1,13 +1,14 @@
 socketIo = require('../../src/socket.io-hub')
 http = require('http')
 port = process.argv[2] || 3000
-rooms = ['a', 'b']
 
+nsp = 'nsp'
+room = 'chat'
 server = http.createServer (req, res) ->
   res.end('<script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script>
-      var socket = io.connect("http://localhost:' + port + '");
+      var socket = io.connect("http://localhost:' + port + '/' + nsp + '");
       $(document).ready(function() {
         $("body").append("' + process.pid + '<hr/>");
           socket.on("news", function (data) {
@@ -18,22 +19,19 @@ server = http.createServer (req, res) ->
 
 io = socketIo.hub({
   adapter: 'redis'
+  salt: 'teambition'
   }).listen(server)
 
 io.sockets.on 'connection', (socket) ->
   socket.subscribe()
-  room = rooms[Math.floor(Math.random()*2)]
   socket.join(room)
-  socket.emit('news', "join room #{room}")
+  socket.emit('news', "namespace #{nsp}")
   socket.on 'chat', (data) ->
     socket.emit('news', data)
-  setInterval (->
-    io.sockets.in(room).emit('news', "room notice from room #{room} of #{port}")
-    ), 5000
-  # setTimeout (->
-  #   socket.broadcast.emit('news', "hub closed of #{port}")
-  #   socketIo.nohub()
-  #   ), 15000
+
+setInterval (->
+  io.of("/#{nsp}").emit('news', "room notice from namespace #{nsp} of #{port}")
+  ), 2000
 
 server.listen(port)
 console.log "server listen on #{port}"
