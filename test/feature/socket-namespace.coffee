@@ -1,4 +1,9 @@
-socketIo = require('../../src/socket.io-hub')
+socketIo = require('socket.io')
+RedisStore = require('socket.io/lib/stores/redis')
+redis  = require('socket.io/node_modules/redis')
+pub    = redis.createClient()
+sub    = redis.createClient()
+client = redis.createClient()
 http = require('http')
 port = process.argv[2] || 3000
 
@@ -17,13 +22,15 @@ server = http.createServer (req, res) ->
         });
     </script>')
 
-io = socketIo.hub({
-  adapter: 'redis'
-  salt: 'teambition'
-  }).listen(server)
+io = socketIo.listen(server)
+
+io.set('store', new RedisStore({
+  redisPub : pub
+, redisSub : sub
+, redisClient : client
+}))
 
 io.sockets.on 'connection', (socket) ->
-  socket.subscribe()
   socket.join(room)
   socket.emit('news', "namespace #{nsp}")
   socket.on 'chat', (data) ->
