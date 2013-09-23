@@ -1,9 +1,4 @@
 socketIo = require('socket.io')
-RedisStore = require('socket.io/lib/stores/redis')
-redis  = require('socket.io/node_modules/redis')
-pub    = redis.createClient()
-sub    = redis.createClient()
-client = redis.createClient()
 http = require('http')
 port = process.argv[2] || 3000
 
@@ -22,14 +17,8 @@ server = http.createServer (req, res) ->
 
 io = socketIo.listen(server)
 
-io.set('store', new RedisStore({
-  redisPub : pub
-, redisSub : sub
-, redisClient : client
-}))
-
 io.sockets.on 'connection', (socket) ->
-  socket.broadcast.emit('news', 'I am coming')
+  socket.volatile.emit('news', "Socket Connect")
   socket.on 'chat', (data) ->
     socket.emit('news', data)
 
