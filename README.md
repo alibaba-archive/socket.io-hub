@@ -2,6 +2,14 @@ socket.io-hub
 =============
 Scalable Socket.IO
 
+## WARNING!!!
+
+Socket.io is supporting multiple process deployment now, so you should not use this plugin anymore!
+
+Please checkout [this article](https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO) and try the offical `RedisStore` model from socket.io.
+
+Also, we appreciate your enthusiasm!
+
 ## Installation
 
 `npm install https://github.com/teambition/socket.io-hub`
