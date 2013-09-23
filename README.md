@@ -2,6 +2,14 @@ socket.io-hub
 =============
 Scalable Socket.IO
 
+## WARNING!!!
+
+Socket.io is supporting multiple process deployment now, so you should not use this plugin anymore!
+
+Please checkout [this article](https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO) and try the offical `RedisStore` model from socket.io.
+
+Also, we appreciate your enthusiasm!
+
 ## Installation
 
 `npm install https://github.com/teambition/socket.io-hub`
@@ -19,6 +27,14 @@ When socket.io emit an event, we publish data of this event to redis and other p
 * broadcast.emit
 * in(room).emit
 * of(/namespace).emit
+
+## options
+
+Options are used for `hub` function, they are all optional, so feel free to try them:
+
+* adapter: redis  # hub adapter, for this moment it only supports redis, and it is the prefered one
+* config: {host: '127.0.0.1', port: '6379'}  # redis configurations
+* salt: 'some string'  # when use salt, socket.io-hub will add _sign in published messages.
 
 ## Usage
 

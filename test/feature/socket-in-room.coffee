@@ -1,4 +1,10 @@
-socketIo = require('../../src/socket.io-hub')
+# socketIo = require('../../src/socket.io-hub')
+socketIo = require('socket.io')
+RedisStore = require('socket.io/lib/stores/redis')
+redis  = require('socket.io/node_modules/redis')
+pub    = redis.createClient()
+sub    = redis.createClient()
+client = redis.createClient()
 http = require('http')
 port = process.argv[2] || 3000
 rooms = ['a', 'b']
@@ -16,12 +22,17 @@ server = http.createServer (req, res) ->
         });
     </script>')
 
-io = socketIo.hub({
-  adapter: 'redis'
-  }).listen(server)
+
+io = socketIo.listen(server)
+
+io.set('store', new RedisStore({
+  redisPub : pub
+, redisSub : sub
+, redisClient : client
+}))
 
 io.sockets.on 'connection', (socket) ->
-  socket.subscribe()
+  # socket.subscribe()
   room = rooms[Math.floor(Math.random()*2)]
   socket.join(room)
   socket.emit('news', "join room #{room}")
@@ -30,10 +41,10 @@ io.sockets.on 'connection', (socket) ->
   setInterval (->
     io.sockets.in(room).emit('news', "room notice from room #{room} of #{port}")
     ), 5000
-  setTimeout (->
-    socket.broadcast.emit('news', "hub closed of #{port}")
-    socketIo.nohub()
-    ), 15000
+  # setTimeout (->
+  #   socket.broadcast.emit('news', "hub closed of #{port}")
+  #   socketIo.nohub()
+  #   ), 15000
 
 server.listen(port)
 console.log "server listen on #{port}"
